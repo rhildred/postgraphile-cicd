@@ -25,4 +25,10 @@ services:
     container_name: gitlab-runner
     volumes:
       - ./gitlab/gitlab-runner:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket for DinD
     restart: always
+    environment:
+      - RUNNER_EXECUTOR=docker
+      - DOCKER_PRIVILEGED=true
+      - DOCKER_IMAGE=docker:latest
+      - DOCKER_SERVICES_DOCKER_IN_DOCKER=true
