@@ -11,6 +11,15 @@ services:
         nginx['listen_port'] = 8022
         nginx['listen_https'] = false
         nginx['redirect_http_to_https'] = false
+        # Enable TCP listening and disable unix sockets
+        postgresql['listen_address'] = '0.0.0.0'
+        postgresql['port'] = 5432
+        postgresql['unix_socket_directories'] = nil
+        postgresql['trust_auth_cidr_addresses'] = ['0.0.0.0/0'] # WARNING: Allows connections from all IPs
+        # Configure GitLab Rails to use the TCP connection
+        gitlab_rails['db_host'] = '127.0.0.1' 
+        gitlab_rails['db_port'] = 5432
+
     ports:
       - '8022:8022'
     restart: always
@@ -32,3 +41,21 @@ services:
       - DOCKER_PRIVILEGED=true
       - DOCKER_IMAGE=docker:latest
       - DOCKER_SERVICES_DOCKER_IN_DOCKER=true
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: devteds@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: devteds      
+      PGADMIN_CONFIG_WTF_CSRF_HEADERS: '["Referer", "Origin"]'
+      PGADMIN_CONFIG_WTF_CSRF_ENABLED: 'False'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    depends_on:
+      - db
+
+volumes:
+  pgadmin-data:
