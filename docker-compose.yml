@@ -7,7 +7,7 @@ services:
       GITLAB_ROOT_EMAIL: "admin@buildwithlal.com"
       GITLAB_ROOT_PASSWORD: "Abcd@0123456789"
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://g4b.k3p.ca'
+        external_url 'https://fangorn-8022.k3p.ca'
         nginx['listen_port'] = 8022
         nginx['listen_https'] = false
         nginx['redirect_http_to_https'] = false
@@ -26,7 +26,6 @@ services:
     volumes:
       - ./gitlab/config:/etc/gitlab
       - ./gitlab/data:/var/opt/gitlab
-
   
   # new changes for adding Gitlab Runner container
   gitlab-runner:
@@ -53,9 +52,9 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     ports:
-      - 5050:80
+      - 5060:80
     depends_on:
-      - db
+      - gitlab-server
 
 volumes:
   pgadmin-data:
