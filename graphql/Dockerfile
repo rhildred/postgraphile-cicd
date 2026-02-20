@@ -5,5 +5,5 @@ LABEL description="Instant high-performance GraphQL API for your PostgreSQL data
 RUN npm install -g postgraphile
 RUN npm install -g postgraphile-plugin-connection-filter
 
-EXPOSE 5000
+EXPOSE 5433
 ENTRYPOINT ["postgraphile", "-n", "0.0.0.0"]

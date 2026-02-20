@@ -56,5 +56,19 @@ services:
     depends_on:
       - gitlab-server
 
+  graphql:
+      container_name: forum-example-graphql
+      restart: always
+      image: forum-example-graphql
+      build:
+          context: ./graphql
+      env_file:
+          - ./.env
+      depends_on:
+          - gitlab-server
+      ports:
+          - 5433:5433
+      command: ["--connection", "${DATABASE_URL}", "--port", "5433", "--schema", "public", "--append-plugins", "postgraphile-plugin-connection-filter"]
+
 volumes:
   pgadmin-data:
