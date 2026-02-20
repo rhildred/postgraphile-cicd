@@ -16,6 +16,10 @@ CREATE DATABASE appdb;
 
 -- Grant all privileges on the new database to the new user
 GRANT ALL PRIVILEGES ON DATABASE appdb TO appuser;
+GRANT USAGE ON SCHEMA public TO appuser;
+GRANT CREATE ON SCHEMA public TO appuser;
+ALTER DEFAULT PRIVILEGES FOR ROLE appuser IN SCHEMA public
+GRANT ALL PRIVILEGES ON TABLES TO appuser;
 ```
 
 Still a work in progress!
